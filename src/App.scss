@@ -1,0 +1,15 @@
+@import 'animate.css';
+
+@font-face {
+    font-family: 'Helvetica Neue';
+    src: url('./Assets/Fonts/helvetica-neu.ttf') format('ttf');
+}
+
+input,
+textarea{
+  font-family: 'Helvetica Neue', sans-serif;
+}
+
+a:link{
+  text-decoration: none;
+}

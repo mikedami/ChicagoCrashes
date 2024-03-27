@@ -1,0 +1,33 @@
+.main-text{
+    color: white;
+    font-family: 'Coolvetica';
+    font-size: 40px;
+    letter-spacing: 0.5px;
+    margin-top: 2%;
+    margin-left: 2%;
+}
+
+.image{
+
+    display: flex;
+    margin-left: 6%;
+    margin-top: 0%;
+
+    img{
+        display: flex;
+        max-width: 750px;
+        max-height: 750px;
+    }
+}
+
+ul{
+    position: fixed;
+    left: 60%;
+    top: 45%;
+
+    li{
+        color: white;
+        font-size: 30px;
+        font-family: 'Coolvetica';
+    }
+}

@@ -1,0 +1,16 @@
+.container{
+    width: 100%;
+    will-change: contents;
+    height: 90%;
+    min-height: 566px;
+    position: absolute;
+    top: 5%;
+    margin: 0 auto;
+    z-index: 1;
+    transform-style: preserve-3d;
+}
+/*
+opacity: 0;
+animation: fadeIn 1s forwards;
+animation-delay: 0.5s;
+*/
