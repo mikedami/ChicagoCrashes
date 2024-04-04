@@ -1,6 +1,9 @@
 import './index.scss';
 import '../../mainstyles.scss';
-import img from '../../Assets/Images/Chicago-scaled.jpg';
+//import img from '../../Assets/Images/Chicago-scaled.jpg';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCarCrash } from '@fortawesome/free-solid-svg-icons';
+
 
 const Home = () => {
     return (
@@ -10,8 +13,8 @@ const Home = () => {
                 Resolving the main causes of traffic collisions in Chicago
             </p>
 
-            <div className='image'>
-                <img src={img}></img>
+            <div className='car'>
+                <FontAwesomeIcon icon={faCarCrash} color='black'/>
             </div>
 
             <ul>
