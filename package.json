@@ -2,6 +2,7 @@
   "name": "chicago-crash-app",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://localhost:5000",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.5.2",
     "@fortawesome/free-brands-svg-icons": "^6.5.2",
@@ -14,6 +15,7 @@
     "animate.css": "^4.1.1",
     "buffer": "^6.0.3",
     "gsap-trial": "^3.12.5",
+    "leaflet": "^1.9.4",
     "oracledb": "^6.4.0",
     "path": "^0.12.7",
     "process": "^0.11.10",

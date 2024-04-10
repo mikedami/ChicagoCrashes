@@ -1,44 +1,61 @@
 import './index.scss';
 import '../../mainstyles.scss';
+import React, { useEffect, useState } from 'react';
+import L, { marker } from 'leaflet';
+import "leaflet/dist/leaflet.css";
+import icon from "leaflet/dist/images/marker-icon.png";
+import iconShadow from "leaflet/dist/images/marker-shadow.png";
+
+let DefaultIcon = L.icon({
+    iconUrl: icon,
+    shadowUrl: iconShadow,
+});
+
 
 const Query = () => {
-    
-    useEffect(()=>{
-	const oracledb = require('oracledb');
+    const [message, setMessage] = useState('');
 
-	oracledb.outFormat = oracledb.OUT_FORMAT_OBJECT;
+    useEffect(() => {
 
-	const mypw = "PASSWORD_HERE";	
+        var container = L.DomUtil.get("map");
 
-	run();
+        if (container != null) {
+            container._leaflet_id = null;
+        }
+        var map = L.map("map").setView([41.87708718061871, -87.63721871616566], 10);
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
 
-    })
+        fetch('/data')
+            .then((dBres) => dBres.text())
+            .then((data) => setMessage(data))
+            .catch((err) => console.log(err));
 
-    async function run() {
+        console.log(message);
+        if (message.length != 0 || message.errorNum != null) {
+            const data = JSON.parse(message);
+            var locationList = [];
+            for (const d of data.rows) {
+                if (d[14] != null && d[15] != null)
+                    locationList.push([d[14], d[15]]);
+            }
+            var markerList = [];
+            for (const l of locationList) {
+                markerList.push(L.circle(l, {
+                    color: 'red',
+                    fillColor: '#f03',
+                    fillOpacity: 0.5,
+                    radius: 20
+                }).addTo(map));
+            }
+        }
 
-	const connection = await oracledb.getConnection ({
-		user          : "USERNAME_HERE",
-        	password      : mypw,
-	        connectString : "//oracle.cise.ufl.edu/orcl"
-	});
-
-	const result = await connection.execute(
-	    `SELECT *
-	    FROM crashes
-	    WHERE ROWNUM < 2`,
-	    // if you want to put a variable for a restriction
-	    // put the var in the string as ':var'
-	    // then put the value contained in [].
-	);
-
-	console.log(result.rows);
-	await connection.close();
-	
-	}
-
+    });
 
     return (
-        <div>Hello World</div>
+        <div id="map"></div>
     )
 }
 

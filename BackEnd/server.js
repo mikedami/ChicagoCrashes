@@ -11,12 +11,12 @@ app.get('/data', (req, res) => {
     async function fetchData(){
         try {
             const connection = await oracledb.getConnection({
-                user: 'patrickquinlan', //enter username
+                user: 'dciuculin', //enter username
                 password: '', //enter password
                 connectString: 'oracle.cise.ufl.edu:1521/orcl'
             });
 
-            const result = await connection.execute('SELECT * FROM Country'); //sample query
+            const result = await connection.execute('SELECT * FROM Crashes WHERE rownum < 5000'); //sample query
             return result;
 
         } catch (error) {
