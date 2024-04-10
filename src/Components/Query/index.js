@@ -42,12 +42,14 @@ const Query = () => {
                     locationList.push([d[14], d[15]]);
             }
             var markerList = [];
+            
             for (const l of locationList) {
+                const color = "#" + Math.floor(Math.random() * Math.pow(16,6)).toString(16);
                 markerList.push(L.circle(l, {
-                    color: 'red',
-                    fillColor: '#f03',
+                    color: color,
+                    fillColor: color,
                     fillOpacity: 0.5,
-                    radius: 20
+                    radius: 5
                 }).addTo(map));
             }
         }
