@@ -35,17 +35,12 @@ const Query = () => {
 
         console.log(message);
         if (message.length != 0 || message.errorNum != null) {
-            const data = JSON.parse(message);
-            var locationList = [];
-            for (const d of data.rows) {
-                if (d[14] != null && d[15] != null)
-                    locationList.push([d[14], d[15]]);
-            }
+            const data = JSON.parse(message);           
             var markerList = [];
-            
-            for (const l of locationList) {
+            for (const d of data) {
+                const location = [d[14], d[15]];
                 const color = "#" + Math.floor(Math.random() * Math.pow(16,6)).toString(16);
-                markerList.push(L.circle(l, {
+                markerList.push(L.circle(location, {
                     color: color,
                     fillColor: color,
                     fillOpacity: 0.5,
