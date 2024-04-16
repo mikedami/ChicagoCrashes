@@ -2,6 +2,7 @@ import './index.scss';
 import '../../mainstyles.scss';
 import React, { useEffect, useState } from 'react';
 import L, { marker } from 'leaflet';
+import axios from 'axios';
 import "leaflet/dist/leaflet.css";
 import icon from "leaflet/dist/images/marker-icon.png";
 import iconShadow from "leaflet/dist/images/marker-shadow.png";
@@ -13,6 +14,7 @@ let DefaultIcon = L.icon({
 
 
 const Query = () => {
+    /*
     const [message, setMessage] = useState('');
 
     useEffect(() => {
@@ -52,10 +54,31 @@ const Query = () => {
         }
 
     });
+*/
+
+    const [data, setData] = React.useState([])
+    React.useEffect(()=>{
+        axios('http://localhost:5000/seasons')
+        .then(response => {
+            if(response.status===200) {
+                setData(response.data)
+            }
+        })
+        .catch(err=>{
+            
+        })
+    },[]);
 
     return (
-        <div id="map"></div>
+        <div>
+        Season Data 
+        {
+            data.length>0 &&
+            data.map(item=>
+            <div>{item}</div>)
+        }
+        </div>
     )
 }
 
-export default Query
+export default Query;
