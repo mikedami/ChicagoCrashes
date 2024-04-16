@@ -37,15 +37,17 @@ const Query = () => {
         if (message.length != 0 || message.errorNum != null) {
             const data = JSON.parse(message);           
             var markerList = [];
-            for (const d of data) {
-                const location = [d[14], d[15]];
-                const color = "#" + Math.floor(Math.random() * Math.pow(16,6)).toString(16);
-                markerList.push(L.circle(location, {
-                    color: color,
-                    fillColor: color,
-                    fillOpacity: 0.5,
-                    radius: 5
-                }).addTo(map));
+            for (const d of data.rows) {
+                if (d[14] != null && d[15] != null) {
+                    const location = [d[14], d[15]];
+                    const color = "#" + Math.floor(Math.random() * Math.pow(16,6)).toString(16);
+                    markerList.push(L.circle(location, {
+                        color: color,
+                        fillColor: color,
+                        fillOpacity: 0.5,
+                        radius: 2.5
+                    }).addTo(map));
+                }
             }
         }
 
