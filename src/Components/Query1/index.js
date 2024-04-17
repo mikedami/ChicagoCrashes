@@ -1,6 +1,6 @@
 import '../../mainstyles.scss';
 import './index.scss';
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import L, { marker } from 'leaflet';
 import axios from 'axios';
 import "leaflet/dist/leaflet.css";
@@ -88,7 +88,7 @@ const Query1 = () => {
         return acc;
     }, {});
     const groupedArrays = Object.values(groupedData);
-
+    console.log(groupedArrays);
     return (
         <div className="page-container">
             <div>

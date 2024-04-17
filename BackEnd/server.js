@@ -146,7 +146,8 @@ app.get('/locations', (req, res) => {
                 FROM 
                     DCIUCULIN.crashes c 
                 WHERE 
-                    c.crashdate >= TRUNC(SYSDATE) - INTERVAL '10' YEAR AND
+                    c.crashdate >= DATE '2018-01-01' AND  
+                    c.crashdate <= DATE '2023-12-31' AND  
                     c.longitude IS NOT NULL AND c.longitude != 0 AND
                     c.latitude IS NOT NULL AND c.latitude != 0
                 GROUP BY 

@@ -1,42 +1,61 @@
-import '../../mainstyles.scss';
+import './index.scss'
 import React, { useEffect, useState } from 'react';
-import L, { marker } from 'leaflet';
 import axios from 'axios';
-import "leaflet/dist/leaflet.css";
-import icon from "leaflet/dist/images/marker-icon.png";
-import iconShadow from "leaflet/dist/images/marker-shadow.png";
+import Chart from 'react-apexcharts';
 
-let DefaultIcon = L.icon({
-    iconUrl: icon,
-    shadowUrl: iconShadow,
-});
 
 const Query2 = () => {
- 
 
-    const [data, setData] = React.useState([])
-    React.useEffect(()=>{
-        axios('http://localhost:5000/locations')
+    const [data, setData] = useState([]);
+    useEffect(() => {
+        axios('http://localhost:5000/safety')
         .then(response => {
-            if(response.status===200) {
-                setData(response.data)
+            if (response.status === 200) {
+                setData(response.data);
             }
         })
-        .catch(err=>{
+        .catch(err => {
+            console.error(err);
+        });
+    }, []);
+    
+    const transformedData = data.map(item => [item[0], item[2], item[1]]);
+    console.log(transformedData)
+    const groupedData = transformedData.reduce((acc, curr) => {
+        const key = curr[2];
+        if (!acc[key]) {
+            acc[key] = [];
+        }
+        acc[key].push(curr);
+        return acc;
+    }, {});
+    const groupedArrays = Object.values(groupedData);
+    console.log(groupedArrays);
 
-        })
-    },[]);
+    const series = Object.keys(groupedData).map(key => ({
+        name: key,
+        data: groupedData[key].map(item => [item[0], item[1]]),
+    }));
+
+    const options = {
+        chart: {
+            height: 350,
+            type: 'line',
+        },
+        xaxis: {
+            type: 'category',
+        },
+    };
 
     return (
         <div>
-        <h1>season data</h1> 
-        {
-            data.length>0 &&
-            data.map(item=>
-            <div>{item}</div>)
-        }
+            <div className="page-container">
+                <div className="chart-container">
+                    <Chart options={options} series={series} type="line" height={400} width={800} />
+                </div>
+            </div>
         </div>
-    )
+    );
 }
 
 export default Query2;
