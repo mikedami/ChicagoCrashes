@@ -99,7 +99,7 @@ const Query1 = () => {
                 The safest area to drive is near the Pullman-Standard
                 Historic District, by Calumet Ave and Columbia Ave.
             </div>
-        <div className="page-containerX">
+            <div className="page-containerX">
             <div>
                 <h1>Frequency of Crashes by Coordinates</h1>
                 <ChartComponent groupedArrays={groupedArrays} />

@@ -1,11 +1,12 @@
 const express = require('express');
 const oracledb = require('oracledb');
 const cors = require('cors');
-
+const bodyParser = require('body-parser');
 const app = express();
 const PORT = 5000;
 
 app.use(cors());
+app.use(bodyParser.json());
 
 const dbConnect = {
     user: process.argv[2],
@@ -13,13 +14,6 @@ const dbConnect = {
     connectString: 'oracle.cise.ufl.edu:1521/orcl'
 }
 
-/*
-
-To log in with your user name, 
-just input 'username password' as 
-command-line arguments when running the server.
-
-*/
 
 app.get('/', (req, res) => {
     res.send("Hello World")
@@ -95,27 +89,25 @@ app.get('/safety', (req, res) => {
             const connection = await oracledb.getConnection(dbConnect);
 
             const sqlQuery2 = `
-                SELECT 
-                    v.VEHICLEYEAR,
-                    c.MOSTSEVERE,
-                    COUNT(*) AS NumberOfCrashes
-                FROM 
-                    DCIUCULIN.crashes c 
-                JOIN 
-                    DCIUCULIN.vehicles v 
-                    ON c.CRASHID = v.CRASHID
-                WHERE 
-                    v.VEHICLEYEAR BETWEEN 2015 AND 2023 AND
-                    (UPPER(c.MOSTSEVERE) = 'FATAL' OR UPPER(c.MOSTSEVERE) = 'NO INDICATION OF INJURY')
-                GROUP BY 
-                    v.VEHICLEYEAR,
-                    c.MOSTSEVERE
-                ORDER BY 
-                    v.VEHICLEYEAR DESC, 
-                    CASE 
-                    WHEN UPPER(c.MOSTSEVERE) = 'FATAL' THEN 1
-                    WHEN UPPER(c.MOSTSEVERE) = 'NO INDICATION OF INJURY' THEN 2
-                END
+            SELECT 
+            v.VEHICLEYEAR,
+            c.MOSTSEVERE,
+            COUNT(*) AS NumberOfCrashes
+          FROM 
+            DCIUCULIN.crashes c 
+          JOIN 
+            DCIUCULIN.vehicles v 
+            ON c.CRASHID = v.CRASHID
+          WHERE 
+            v.VEHICLEYEAR BETWEEN 2015 AND 2023 AND
+            (UPPER(c.MOSTSEVERE) = 'FATAL' OR UPPER(c.MOSTSEVERE) = 'NO INDICATION OF INJURY')
+          GROUP BY 
+            v.VEHICLEYEAR,
+            c.MOSTSEVERE
+          ORDER BY 
+            v.VEHICLEYEAR DESC, 
+            c.MOSTSEVERE
+          
             `;
             const result = await connection.execute(sqlQuery2);
             await connection.close();
@@ -324,6 +316,53 @@ app.get('/day', (req, res) => {
         }
     }
     fetchDataDOW()
+    .then(dbRes => {
+        res.send(dbRes);
+    })
+    .catch(err => {
+        res.send(err);
+    })
+})
+
+app.get('/data', (req, res) => {
+    async function fetchData(){
+        console.log("queried!");
+        try {
+            const connection = await oracledb.getConnection({
+                user: process.argv[2], //enter username
+                password: process.argv[3], //enter password
+                connectString: 'oracle.cise.ufl.edu:1521/orcl'
+            });
+
+            const GeomType = await connection.getDbObjectClass("MDSYS.SDO_GEOMETRY");
+            
+            var coords = req.body;
+
+            const geom = new GeomType(
+                {
+                    SDO_GTYPE: 2003,
+                    SDO_SRID: null,
+                    SDO_POINT: null,
+                    SDO_ELEM_INFO: [ 1, 1003, 1 ],
+                    SDO_ORDINATES: coords
+                }
+            );
+
+            const query = `SELECT /*+ PARALLEL(a, 8) */ *
+            FROM TABLE(sdo_PointInPolygon(
+              CURSOR(select longitude x, latitude y, crashes.* from DCIUCULIN.crashes),
+              :shape,
+              0.0005)) a where rownum < 700`
+
+            const result = await connection.execute(query, {shape : geom}); 
+            await connection.close();
+            return result;
+
+        } catch (error) {
+            return error;
+        }
+    }
+    fetchData()
     .then(dbRes => {
         res.send(dbRes);
     })

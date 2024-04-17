@@ -2,8 +2,9 @@ import './index.scss';
 import '../../mainstyles.scss';
 //import img from '../../Assets/Images/Chicago-scaled.jpg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCarCrash } from '@fortawesome/free-solid-svg-icons';
+import { faCarCrash, faPerson, faCarSide } from '@fortawesome/free-solid-svg-icons';
 import { useEffect, useState } from 'react';
+import Map from '../Map';
 
 const Home = () => {
 
@@ -29,7 +30,15 @@ const Home = () => {
             </p>
 
             <div className='car'>
-                <FontAwesomeIcon icon={faCarCrash} color='black'/>
+                <FontAwesomeIcon icon={faCarCrash} color='yellow'/>
+            </div>
+
+            <div className='person'>
+                <FontAwesomeIcon icon={faCarSide} color='black' />
+            </div>
+
+            <div className='map'>
+                <Map></Map>
             </div>
 
             <div className='count'>

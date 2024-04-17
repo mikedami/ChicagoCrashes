@@ -10,9 +10,19 @@
 .car{
     display: block;
     font-size: 400px;
-    position: relative;
+    position: absolute;
     left: 10%;
-    animation: bounceIn 0.5s ease-in-out;
+    animation: bounceIn 3s ease-in-out;
+}
+
+.person{
+  display: block;
+  position: absolute;
+  font-size: 100px;
+  top: 400px;
+  left: 50px;
+  animation: pushOffScreen 6s 1s forwards; /* Apply the pushOffScreen animation */
+
 }
 
 .count{
@@ -47,3 +57,12 @@
       transform: scale(1);
     }
   }
+
+  @keyframes pushOffScreen {
+    0% {
+        transform: translateX(0); /* Start with no translation (div in its original position) */
+    }
+    100% {
+        transform: translateX(-200%); /* End with translation to the left by 100% of its width */
+    }
+}
