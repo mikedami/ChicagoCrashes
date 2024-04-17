@@ -1,0 +1,28 @@
+.charts-container{
+    margin-top: 10px; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.chart-container1,
+.chart-container2 {
+    margin: 50px;
+}
+
+h3{
+    text-align: center; 
+    margin-top: 30px; 
+    margin-bottom: 20px; 
+    font-size: 30px;
+    font-family: 'Coolvetica';
+    color: white;
+    font-weight: 1;
+}
+
+.page4-container {
+    display: flex;
+    align-items: center;
+    height: 100vh; 
+    justify-content: center;
+}

@@ -140,25 +140,26 @@ app.get('/locations', (req, res) => {
             const connection = await oracledb.getConnection(dbConnect);
 
             const sqlQuery3 = `
-                SELECT 
-                    EXTRACT(YEAR FROM c.crashdate) AS Year, 
-                    ROUND(c.longitude, 1) AS longitude,
-                    ROUND(c.latitude, 1) AS latitude,
-                    COUNT(*) AS accidents
-                FROM 
-                    DCIUCULIN.crashes c 
-                WHERE 
-                    c.crashdate >= TRUNC(SYSDATE) - INTERVAL '10' YEAR AND
-                    c.longitude IS NOT NULL AND c.longitude != 0 AND
-                    c.latitude IS NOT NULL AND c.latitude != 0
-                GROUP BY 
-                    EXTRACT(YEAR FROM c.crashdate),
-                    ROUND(c.longitude, 1),
-                    ROUND(c.latitude, 1)
-                ORDER BY 
-                    ROUND(c.longitude, 1),
-                    ROUND(c.latitude, 1),
-                    Year
+            SELECT 
+                EXTRACT(YEAR FROM c.crashdate) AS Year, 
+                ROUND(c.longitude, 1) AS longitude,
+                ROUND(c.latitude, 1) AS latitude,
+                COUNT(*) AS accidents
+            FROM 
+                DCIUCULIN.crashes c 
+            WHERE 
+                c.crashdate >= DATE '2018-01-01' AND  
+                c.crashdate <= DATE '2023-12-31' AND  
+                c.longitude IS NOT NULL AND c.longitude != 0 AND
+                c.latitude IS NOT NULL AND c.latitude != 0
+            GROUP BY 
+                EXTRACT(YEAR FROM c.crashdate),
+                ROUND(c.longitude, 1),
+                ROUND(c.latitude, 1)
+            ORDER BY 
+                ROUND(c.longitude, 1),
+                ROUND(c.latitude, 1),
+                Year
             `;
             
             const result = await connection.execute(sqlQuery3);
@@ -219,15 +220,15 @@ app.get('/highway', (req, res) => {
                 SELECT 
                     EXTRACT(YEAR FROM c.CRASHDATE) AS CRASHYEAR, 
                     CASE
-                        WHEN c.SPEEDLIMIT BETWEEN 0 AND 35 THEN '0-35'
-                        ELSE '35+'
+                        WHEN c.SPEEDLIMIT BETWEEN 0 AND 30 THEN '0-30'
+                        ELSE '30+'
                     END AS SPEED_GROUP,
                     COUNT(*) AS CRASHCOUNT
                 FROM DCIUCULIN.CRASHES c
                 GROUP BY EXTRACT(YEAR FROM c.CRASHDATE), 
                 CASE
-                    WHEN c.SPEEDLIMIT BETWEEN 0 AND 35 THEN '0-35'
-                    ELSE '35+'
+                    WHEN c.SPEEDLIMIT BETWEEN 0 AND 30 THEN '0-30'
+                    ELSE '30+'
                 END
                 ORDER BY CRASHYEAR, SPEED_GROUP
             `;
@@ -240,6 +241,42 @@ app.get('/highway', (req, res) => {
         }
     }
     fetchDataHighway()
+    .then(dbRes => {
+        res.send(dbRes);
+    })
+    .catch(err => {
+        res.send(err);
+    })
+})
+
+app.get('/highwayInjury', (req, res) => {
+    async function fetchDataInjury(){
+        try {
+            const connection = await oracledb.getConnection(dbConnect);
+
+            const sqlQuery7 = `
+            SELECT 
+                CASE
+                    WHEN c.SPEEDLIMIT BETWEEN 0 AND 30 THEN '0-30'
+                ELSE '30+'
+            END AS SPEED_GROUP,
+            SUM(CASE WHEN c.CRASHTYPE LIKE '%INJURY AND%' THEN 1 ELSE 0 END) * 1.0 / COUNT(*) AS INJURY_PROPORTION
+            FROM DCIUCULIN.CRASHES c
+            GROUP BY 
+            CASE
+                WHEN c.SPEEDLIMIT BETWEEN 0 AND 30 THEN '0-30'
+                ELSE '30+'
+            END
+            `;
+            const result = await connection.execute(sqlQuery7);
+            await connection.close();
+            return result.rows;
+
+        } catch (error) {
+            return error;
+            }
+        }
+    fetchDataInjury()
     .then(dbRes => {
         res.send(dbRes);
     })

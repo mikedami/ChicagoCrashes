@@ -1,25 +1,42 @@
 .chart-container {
-    //width: 80; /* Adjust the width of the chart */
-    margin-top: 10px; /* Adjust the margin to create space at the top */
+    margin-top: 10px; 
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 h1 {
-    text-align: center; /* Center align the heading */
-    margin-top: 30px; /* Add margin to the top of the heading */
-    margin-bottom: 20px; /* Add margin to the bottom of the heading */
+    text-align: center; 
+    margin-top: 30px; 
+    margin-bottom: 20px; 
     font-size: 40px;
     font-family: 'Coolvetica';
     color: white;
     font-weight: 1;
 }
 
-.page-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100vh; /* Set the height of the container to 100% of the viewport height */
+.page-containerX {
+    position: absolute;
+    right: 100px;
+    top: 100px;
+}
+
+.dangerous{
+    color: white;
+    position: absolute;
+    top: 200px;
+    font-size: 30px;
+    font-family: 'Coolvetica';
+    width: 500px;
+    left: 100px;
+}
+
+.safest{
+    color: white;
+    position: absolute;
+    bottom: 200px;
+    font-size: 30px;
+    font-family: 'Coolvetica';
+    width: 500px;
+    left: 100px;
 }

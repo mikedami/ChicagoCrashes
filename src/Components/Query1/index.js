@@ -1,4 +1,3 @@
-import '../../mainstyles.scss';
 import './index.scss';
 import React, { useRef, useEffect, useState } from 'react';
 import L, { marker } from 'leaflet';
@@ -51,7 +50,7 @@ const ChartComponent = ({ groupedArrays }) => {
                 },
             },
             series: seriesData.map((series, index) => ({
-                name: `Line ${index + 1}`,
+                name: `${groupedArrays[index][0][2]},${groupedArrays[index][0][3]}`, // Use items at 2nd and 3rd index as key
                 data: series,
             })),
         }));
@@ -78,7 +77,7 @@ const Query1 = () => {
         });
     }, []);
 
-    const transformedData = data.map(item => [item[0], item[3], item[1], item[2]]);
+    const transformedData = data.map(item => [item[0], item[3], item[2], item[1]]);
     const groupedData = transformedData.reduce((acc, curr) => {
         const key = `${curr[2]}_${curr[3]}`;
         if (!acc[key]) {
@@ -90,12 +89,24 @@ const Query1 = () => {
     const groupedArrays = Object.values(groupedData);
 
     return (
-        <div className="page-container">
+        <div>
+            <div className='dangerous'>
+                The most dangerous area to drive is near Humboldt Park,
+                on the corner of West Division Street and
+                North Humboldt Drive.
+            </div>
+            <div className='safest'>
+                The safest area to drive is near the Pullman-Standard
+                Historic District, by Calumet Ave and Columbia Ave.
+            </div>
+        <div className="page-containerX">
             <div>
-                <h1>Line Graphs for Grouped Data</h1>
+                <h1>Frequency of Crashes by Coordinates</h1>
                 <ChartComponent groupedArrays={groupedArrays} />
             </div>
         </div>
+        </div>
+
     );
 };
 
