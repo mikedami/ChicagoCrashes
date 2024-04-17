@@ -12,6 +12,7 @@
     font-size: 400px;
     position: relative;
     left: 10%;
+    animation: bounceIn 0.5s ease-in-out;
 }
 
 ul{
@@ -36,8 +37,4 @@ ul{
     100% {
       transform: scale(1);
     }
-  }
-
-  .car {
-    animation: bounceIn 0.5s ease-in-out;
   }

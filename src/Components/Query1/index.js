@@ -1,5 +1,5 @@
 import './index.scss';
-import '../../mainstyles.scss';
+//import '../../mainstyles.scss';
 import React, { useEffect, useState } from 'react';
 import L, { marker } from 'leaflet';
 import axios from 'axios';
@@ -12,8 +12,7 @@ let DefaultIcon = L.icon({
     shadowUrl: iconShadow,
 });
 
-
-const Query = () => {
+const Query1 = () => {
     /*
     const [message, setMessage] = useState('');
 
@@ -70,15 +69,15 @@ const Query = () => {
     },[]);
 
     return (
-        <div>
-        Season Data 
-        {
-            data.length>0 &&
-            data.map(item=>
-            <div>{item}</div>)
-        }
-        </div>
+            <div className='main'>
+            Season Data 
+                {
+                    data.length>0 &&
+                    data.map(item=>
+                    <div>{item}</div>)
+                }
+            </div>
     )
 }
 
-export default Query;
+export default Query1;
