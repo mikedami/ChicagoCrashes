@@ -1,3 +1,8 @@
+
+.main-context {
+  overflow: scroll;
+}
+
 .main-text{
   color: white;
   font-family: 'Coolvetica';
@@ -17,8 +22,8 @@
 
 .count{
 position: absolute;
-left: 60%;
-top: 50%;
+left: 70%;
+top: 20%;
 
 .button{
   font-size: 20px;

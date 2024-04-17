@@ -1,9 +1,9 @@
 .chart-container {
-    //width: 80; /* Adjust the width of the chart */
-    margin-top: 10px; /* Adjust the margin to create space at the top */
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    //width: 20%; /* Adjust the width of the chart */
+    //margin-top: 10px; /* Adjust the margin to create space at the top */
+    //display: flex;
+    //justify-content: left;
+    //align-items: center;
 }
 
 h1 {
@@ -15,7 +15,12 @@ h1 {
 .page-container {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    //justify-content: center;
+    //align-items: center;
     height: 100vh; /* Set the height of the container to 100% of the viewport height */
+}
+
+#map{
+    //justify-content: left;
+
 }

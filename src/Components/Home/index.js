@@ -5,6 +5,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCarCrash } from '@fortawesome/free-solid-svg-icons';
 import { useEffect, useState } from 'react';
 
+import Map from '../Map';
+
 const Home = () => {
 
     const [count, setCount] = useState(null);
@@ -13,8 +15,8 @@ const Home = () => {
         try {
             const response = await fetch('/count');
             const data = await response.json();
+            console.log(data);
             setCount(data[0][0]);
-            console.log(data)
         } catch (error) {
             console.error('Error fetching data:', error);
         }
@@ -35,7 +37,10 @@ const Home = () => {
             <div className='count'>
                 <button className='button' onClick={fetchData}>Total Number of Tuples</button>
                 {count !== null && <p className='text-result'>Total Count: {count}</p>}
+                
             </div>
+
+            <Map/>
 
         </div>
     )

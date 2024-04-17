@@ -1,8 +1,10 @@
 const express = require('express');
 const oracledb = require('oracledb');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 const app = express();
 const PORT = 5000;
+var 
 /*
 
 To log in with your user name, 
@@ -11,7 +13,15 @@ command-line arguments when running the server.
 
 */
 
-app.use(bodyParser.json())
+app.use(bodyParser.json());
+app.use(cors());
+
+const dbConnect = {
+    user: process.argv[2], //enter username
+    password: process.argv[3], //enter password
+    connectString: 'oracle.cise.ufl.edu:1521/orcl'
+};
+
 
 app.get('/', (req, res) => {
     res.send("Hello World")
@@ -26,11 +36,11 @@ app.get('/count', (req, res) => {
             const sqlQuery = `
             SELECT SUM(total_count) AS total_tuples_count
             FROM (
-                SELECT COUNT(*) AS total_count FROM DCIUCULIN.CRASHES
+                SELECT COUNT(*) AS total_count FROM CRASHES
                     UNION ALL
-                SELECT COUNT(*) AS total_count FROM DCIUCULIN.DRIVERS
+                SELECT COUNT(*) AS total_count FROM DRIVERS
                     UNION ALL
-                SELECT COUNT(*) AS total_count FROM DCIUCULIN.VEHICLES
+                SELECT COUNT(*) AS total_count FROM VEHICLES
             )
             `;
             const result = await connection.execute(sqlQuery);
@@ -38,6 +48,7 @@ app.get('/count', (req, res) => {
             return result.rows;
 
         } catch (error){
+            console.log(error);
             return error;
         }
     }
@@ -66,19 +77,27 @@ app.get('/impair', (req, res) => {
                 ORDER BY CRASHYEAR        
             `;
             const result = await connection.execute(sqlQuery1);
+            await connection.close();
             return result.rows;
-
+        } catch (error) {
+            return error;
+        }
+    }
+    fetchDataFatal()
+    .then(dbRes => {
+        res.send(dbRes);
+    })
+    .catch(err => {
+        res.send(err);
+    })
+})
 
 // THE ONE FOR THE MAP
 app.post('/data', (req, res) => {
     async function fetchData(){
         console.log("queried!");
         try {
-            const connection = await oracledb.getConnection({
-                user: process.argv[2], //enter username
-                password: process.argv[3], //enter password
-                connectString: 'oracle.cise.ufl.edu:1521/orcl'
-            });
+            const connection = await oracledb.getConnection(dbConnect);
 
             const GeomType = await connection.getDbObjectClass("MDSYS.SDO_GEOMETRY");
             
@@ -94,9 +113,11 @@ app.post('/data', (req, res) => {
                 }
             );
 
+            const add = `select longitude x, latitude y, crashes.* from DCIUCULIN.crashes`;
+
             const query = `SELECT /*+ PARALLEL(a, 8) */ *
             FROM TABLE(sdo_PointInPolygon(
-              CURSOR(select longitude x, latitude y, crashes.* from DCIUCULIN.crashes),
+              CURSOR(`+ add +`),
               :shape,
               0.0005)) a where rownum < 700`
 
@@ -147,9 +168,20 @@ app.get('/safety', (req, res) => {
                 END
             `;
             const result = await connection.execute(sqlQuery2);
+            await connection.close();
             return result.rows;
-
-            const query = `SELECT count(*) from crashes`
+        } catch (error) {
+            return error;
+        }
+    }
+    fetchDataSeason()
+    .then(dbRes => {
+        res.send(dbRes);
+    })
+    .catch(err => {
+        res.send(err);
+    })
+})
 
 
 app.get('/locations', (req, res) => {
@@ -181,13 +213,14 @@ app.get('/locations', (req, res) => {
             `;
             
             const result = await connection.execute(sqlQuery3);
+            await connection.close();
             return result.rows;
 
         } catch (error) {
             return error;
         }
     }
-    fetchData()
+    fetchDataLocs()
     .then(dbRes => {
         res.send(dbRes);
     })
@@ -243,7 +276,7 @@ app.get('/covid', (req, res) => {
             return error;
         }
     }
-    fetchData()
+    fetchDataSpeed()
     .then(dbRes => {
         res.send(dbRes);
     })
@@ -274,6 +307,7 @@ app.get('/highway', (req, res) => {
                 ORDER BY CRASHYEAR, SPEED_GROUP
             `;
             const result = await connection.execute(sqlQuery6);
+            await connection.close();
             return result.rows;
 
         } catch (error) {
@@ -320,6 +354,7 @@ app.get('/day', (req, res) => {
                     END
             `;
             const result = await connection.execute(sqlQuery5);
+            await connection.close();
             return result.rows;
 
         } catch (error) {

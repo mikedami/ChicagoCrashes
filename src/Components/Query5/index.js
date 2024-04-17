@@ -3,7 +3,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import Chart from 'react-apexcharts';
 
-
+import Map from '../Map';
 
 const Query5 = () => {
 
@@ -49,8 +49,9 @@ const Query5 = () => {
         <div>
             <div className="page-container">
                 <div className="chart-container">
-                    <Chart options={options} series={series} type="line" height={400} width={800} />
+                    <Chart options={options} series={series} type="line" height={400} width={600} />
                 </div>
+                <Map />
             </div>
         </div>
     );

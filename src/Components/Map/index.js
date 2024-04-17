@@ -135,7 +135,6 @@ const Map = () => {
     return (
         <div>
             <div ref={mapContainer} id="map" />
-            <LineChart/>
         </div>        
     )
 }
