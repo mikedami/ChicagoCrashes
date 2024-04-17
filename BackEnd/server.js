@@ -45,7 +45,7 @@ app.post('/data', (req, res) => {
 
             const query = `SELECT /*+ PARALLEL(a, 8) */ *
             FROM TABLE(sdo_PointInPolygon(
-              CURSOR(select longitude x, latitude y, crashes.* from crashes),
+              CURSOR(select longitude x, latitude y, crashes.* from DCIUCULIN.crashes),
               :shape,
               0.0005)) a where rownum < 700`
 
@@ -126,13 +126,13 @@ app.get('/data', (req, res) => {
 
             const query = `SELECT /*+ PARALLEL(a, 8) */ *
             FROM TABLE(sdo_PointInPolygon(
-              CURSOR(select longitude x, latitude y, crashes.* from crashes),
+              CURSOR(select longitude x, latitude y, crashes.* from DCIUCULIN.crashes),
               :shape,
               0.005)) a  where rownum < 20000`
 
             const result = await connection.execute(query, {shape : geom});
             await connection.close();
-            return result;
+            return result.rows;
 
         } catch (error) {
             return error;

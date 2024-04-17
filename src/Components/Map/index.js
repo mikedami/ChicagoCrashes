@@ -37,7 +37,7 @@ const Map = () => {
     var shapes = useRef([]);
 
      async function shapeQuery(map, message) {
-        var coords = coordinates.current;
+        const coords = coordinates.current;
         console.log("coordinates:" + coords);
         const dat = await fetch('/data', {
             method: "POST",
@@ -46,48 +46,38 @@ const Map = () => {
             {
                 "Content-Type": "application/json"
             }
-          })
-            .then((res) => res.text())
-            .then((data) => setMessage(data))
-            .catch((err) => console.log("error:" + err));
-        
-        var markerList = [];
-        if (message.length !== 0 && message.code === undefined) {
+          })        
+            const data = await dat.json();
+            console.log(data);
 
-            const data = JSON.parse(message);    
-
-            console.log(message);
-            for (const d of data.rows) {
-                if (d[1] !== null && d[0] !== null) {
-
-                    const location = [d[1], d[0]];
-                    const color = "#" + d[2].slice(4,10);
-
-                    markerList.push(L.circle(location, {
-                        color: color,
-                        fillColor: color,
-                        fillOpacity: 0.7,
-                        radius: 1
-                    }).addTo(map));
-
+            if (data.code === undefined) {
+                for (const d of data.rows) {
+                    if (d[1] !== null && d[0] !== null) {
+                        const location = [d[1], d[0]];
+                        const color = "#" + d[2].slice(4, 10);
+                        markerList.current.push(L.circle(location, {
+                            color: color,
+                            fillColor: color,
+                            fillOpacity: 0.7,
+                            radius: 1
+                        }).addTo(map));
+                    }
                 }
 
-            }
-
-            var shape = [];
-                    for (var i = 0; i < coords.length - 1; i+=2) {
-                        shape.push([coords[i],coords[i+1]]);
-                    }
-                    shapes.current.push(polygon(shape, {
-                        style: {
-                          opacity: 0.6,
-                          fillOpacity: 0.01,
-                          color: 'black',
-                        },
-                      }))
+                var shape = [];
+                for (var i = 0; i < coords.length - 1; i += 2) {
+                    shape.push([coords[i], coords[i + 1]]);
+                }
+                shapes.current.push(L.polygon(shape, {
+                    style: {
+                        opacity: 0.6,
+                        fillOpacity: 0.01,
+                        color: 'black',
+                    },
+                }).addTo(map));
         }
 
-        return markerList;
+        //return markerList;
     };
 
 
@@ -110,22 +100,15 @@ const Map = () => {
 
               coordinates.current = polygon.toGeoJSON().geometry.coordinates.flat().flat();
               console.log ("coords" + coordinates.current);
-              markerList.current.push(shapeQuery(map.current, message));
-              shapes.current.push(geojson);
 
-              console.log("MARKERLIST:");
-              for (const e of markerList.current) {
-                console.log(e);
-              }
 
-              console.log("SHAPES:");
-              console.log(shapes.current);
+              shapeQuery(map.current, message).then(() => {
+                console.log("Marker added")
+              });
 
               geojson.addTo(map.current);
               
               control.deactivate();
-              console.log("drawc2:" + coordinates.current);
-
             }
 
     }));
