@@ -1,0 +1,25 @@
+.chart-container {
+    //width: 80; /* Adjust the width of the chart */
+    margin-top: 10px; /* Adjust the margin to create space at the top */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+h2 {
+    text-align: center; /* Center align the heading */
+    margin-top: 30px; /* Add margin to the top of the heading */
+    margin-bottom: 20px; /* Add margin to the bottom of the heading */
+    font-size: 40px;
+    font-family: 'Coolvetica';
+    color: white;
+    font-weight: 1;
+}
+
+.page-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Set the height of the container to 100% of the viewport height */
+}
