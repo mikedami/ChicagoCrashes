@@ -8,7 +8,6 @@ import Query3 from './Components/Query3/index.js';
 import Query4 from './Components/Query4/index.js';
 import Query5 from './Components/Query5/index.js';
 
-
 function App() {
   return(
     <>

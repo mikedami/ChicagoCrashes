@@ -15,17 +15,26 @@
     animation: bounceIn 0.5s ease-in-out;
 }
 
-ul{
-    position: fixed;
-    left: 60%;
-    top: 45%;
+.count{
+  position: absolute;
+  left: 60%;
+  top: 50%;
+  
+  .button{
+    font-size: 20px;
+    font-family: 'Coolvetica';
+    color: white;
+    background-color: black;
+    border: none;
+  }
 
-    li{
-        color: white;
-        font-size: 30px;
-        font-family: 'Coolvetica';
-    }
+  .text-result{
+    color: white;
+    font-family: 'Coolvetica';
+    font-size: 20px;
+  }
 }
+
 
 @keyframes bounceIn {
     0% {

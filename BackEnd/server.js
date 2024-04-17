@@ -25,6 +25,38 @@ app.get('/', (req, res) => {
     res.send("Hello World")
 })
 
+app.get('/count', (req, res) => {
+    async function fetchDataCount(){
+        try{
+            const connection = await oracledb.getConnection(dbConnect);
+
+            const sqlQuery = `
+            SELECT SUM(total_count) AS total_tuples_count
+            FROM (
+                SELECT COUNT(*) AS total_count FROM DCIUCULIN.CRASHES
+                    UNION ALL
+                SELECT COUNT(*) AS total_count FROM DCIUCULIN.DRIVERS
+                    UNION ALL
+                SELECT COUNT(*) AS total_count FROM DCIUCULIN.VEHICLES
+            )
+            `;
+            const result = await connection.execute(sqlQuery);
+            await connection.close();
+            return result.rows;
+
+        } catch (error){
+            return error;
+        }
+    }
+    fetchDataCount()
+    .then(dbRes => {
+        res.send(dbRes);
+    })
+    .catch(err => {
+        res.send(err);
+    })
+})
+
 app.get('/fRate', (req, res) => {
     async function fetchDataFatal(){
         try {

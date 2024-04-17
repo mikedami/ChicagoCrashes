@@ -13,7 +13,7 @@ let DefaultIcon = L.icon({
 });
 
 const Query1 = () => {
-    /*
+    
     const [message, setMessage] = useState('');
 
     useEffect(() => {
@@ -53,7 +53,6 @@ const Query1 = () => {
         }
 
     });
-*/
 
     const [data, setData] = React.useState([])
     React.useEffect(()=>{
@@ -69,14 +68,9 @@ const Query1 = () => {
     },[]);
 
     return (
-            <div className='main'>
-            Season Data 
-                {
-                    data.length>0 &&
-                    data.map(item=>
-                    <div>{item}</div>)
-                }
-            </div>
+        <div>
+            <div id='map'></div>
+        </div>
     )
 }
 
