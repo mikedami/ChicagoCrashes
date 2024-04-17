@@ -56,7 +56,11 @@ const ChartComponent = ({ groupedArrays }) => {
         }));
     }, [groupedArrays]);
 
-    return <Chart options={chartData.options} series={chartData.series} type="line" height={350} />;
+    return ( 
+        <div className="chart-container">
+            <Chart options={chartData.options} series={chartData.series} type="line" height={450} />
+        </div>
+    )
 };
 
 const Query1 = () => {
@@ -85,9 +89,11 @@ const Query1 = () => {
     const groupedArrays = Object.values(groupedData);
 
     return (
-        <div>
-            <h1>Line Graphs for Grouped Data</h1>
-            <ChartComponent groupedArrays={groupedArrays} />
+        <div className="page-container">
+            <div>
+                <h1>Line Graphs for Grouped Data</h1>
+                <ChartComponent groupedArrays={groupedArrays} />
+            </div>
         </div>
     );
 };
