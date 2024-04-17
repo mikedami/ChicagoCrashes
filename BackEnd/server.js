@@ -114,19 +114,26 @@ app.get('/locations', (req, res) => {
             const connection = await oracledb.getConnection(dbConnect);
 
             const sqlQuery3 = `
-                SELECT 
-                    ROUND(c.longitude, 3) AS longitude,
-                    ROUND(c.latitude, 3) AS latitude,
-                    COUNT(*) AS accidents
-                FROM 
-                    DCIUCULIN.crashes c 
-                WHERE 
-                    c.crashdate >= TRUNC(SYSDATE) - INTERVAL '10' YEAR
-                GROUP BY 
-                    ROUND(c.longitude, 3),
-                    ROUND(c.latitude, 3)
-                ORDER BY 
-                accidents DESC
+            SELECT 
+  EXTRACT(YEAR FROM c.crashdate) AS Year, 
+  ROUND(c.longitude, 1) AS longitude,
+  ROUND(c.latitude, 1) AS latitude,
+  COUNT(*) AS accidents
+FROM 
+  DCIUCULIN.crashes c 
+WHERE 
+  c.crashdate >= TRUNC(SYSDATE) - INTERVAL '10' YEAR AND
+  c.longitude IS NOT NULL AND c.longitude != 0 AND
+  c.latitude IS NOT NULL AND c.latitude != 0
+GROUP BY 
+  EXTRACT(YEAR FROM c.crashdate),
+  ROUND(c.longitude, 1),
+  ROUND(c.latitude, 1)
+ORDER BY 
+  ROUND(c.longitude, 1),
+  ROUND(c.latitude, 1),
+  Year
+         
             `;
             
             const result = await connection.execute(sqlQuery3);
