@@ -13,6 +13,7 @@ let DefaultIcon = L.icon({
     shadowUrl: iconShadow,
 });
 
+
 const ChartComponent = ({ groupedArrays }) => {
     const [chartData, setChartData] = useState({
         options: {
@@ -25,6 +26,7 @@ const ChartComponent = ({ groupedArrays }) => {
         },
         series: [],
     });
+
 
     useEffect(() => {
         let categories = [];
@@ -57,12 +59,14 @@ const ChartComponent = ({ groupedArrays }) => {
         }));
     }, [groupedArrays]);
 
+
     return ( 
         <div className="chart-container">
             <Chart options={chartData.options} series={chartData.series} type="line" height={500} width={800} />
         </div>
     )
 };
+
 
 const Query1 = () => {
     const [data, setData] = useState([]);
@@ -98,5 +102,6 @@ const Query1 = () => {
         </div>
     );
 };
+
 
 export default Query1;

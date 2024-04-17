@@ -30,6 +30,10 @@ const Panel = () => {
                     <div>Query 5</div>
                 </NavLink>
 
+                <NavLink exact='true' activeclassname='active' className='map' to='/map'>
+                    <div>Map</div>
+                </NavLink>
+
             </nav>
 
         </div>

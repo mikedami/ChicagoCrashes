@@ -7,6 +7,8 @@ import Query2 from './Components/Query2/index.js';
 import Query3 from './Components/Query3/index.js';
 import Query4 from './Components/Query4/index.js';
 import Query5 from './Components/Query5/index.js';
+import Map from './Components/Map/index.js';
+
 
 function App() {
   return(
@@ -19,6 +21,7 @@ function App() {
         <Route path="/query3" element={<Query3 />} />
         <Route path="/query4" element={<Query4 />} />
         <Route path="/query5" element={<Query5 />} />
+        <Route path="/map" element={<Map />} />
 
       </Route>
     </Routes>
