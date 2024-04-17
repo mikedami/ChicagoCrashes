@@ -1,4 +1,5 @@
 import '../../mainstyles.scss';
+import './index.scss';
 import React, { useRef, useEffect, useState } from 'react';
 import L, { marker } from 'leaflet';
 import axios from 'axios';
@@ -58,7 +59,7 @@ const ChartComponent = ({ groupedArrays }) => {
 
     return ( 
         <div className="chart-container">
-            <Chart options={chartData.options} series={chartData.series} type="line" height={450} />
+            <Chart options={chartData.options} series={chartData.series} type="line" height={500} width={800} />
         </div>
     )
 };

@@ -1,7 +1,9 @@
 .chart-container {
-    width: 80%;
-    margin: auto;
-    margin-top: 50px; /* Adjust the margin to create space at the top */
+    //width: 80; /* Adjust the width of the chart */
+    margin-top: 10px; /* Adjust the margin to create space at the top */
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 h1 {
