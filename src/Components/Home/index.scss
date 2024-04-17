@@ -1,49 +1,49 @@
 .main-text{
-    color: white;
-    font-family: 'Coolvetica';
-    font-size: 40px;
-    letter-spacing: 0.5px;
-    margin-top: 2%;
-    margin-left: 2%;
+  color: white;
+  font-family: 'Coolvetica';
+  font-size: 40px;
+  letter-spacing: 0.5px;
+  margin-top: 2%;
+  margin-left: 2%;
 }
 
 .car{
-    display: block;
-    font-size: 400px;
-    position: relative;
-    left: 10%;
-    animation: bounceIn 0.5s ease-in-out;
+  display: block;
+  font-size: 400px;
+  position: relative;
+  left: 10%;
+  animation: bounceIn 0.5s ease-in-out;
 }
 
 .count{
-  position: absolute;
-  left: 60%;
-  top: 50%;
-  
-  .button{
-    font-size: 20px;
-    font-family: 'Coolvetica';
-    color: white;
-    background-color: black;
-    border: none;
-  }
+position: absolute;
+left: 60%;
+top: 50%;
 
-  .text-result{
-    color: white;
-    font-family: 'Coolvetica';
-    font-size: 20px;
-  }
+.button{
+  font-size: 20px;
+  font-family: 'Coolvetica';
+  color: white;
+  background-color: black;
+  border: none;
+}
+
+.text-result{
+  color: white;
+  font-family: 'Coolvetica';
+  font-size: 20px;
+}
 }
 
 
 @keyframes bounceIn {
-    0% {
-      transform: scale(0);
-    }
-    50% {
-      transform: scale(1.2);
-    }
-    100% {
-      transform: scale(1);
-    }
+  0% {
+    transform: scale(0);
   }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
