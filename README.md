@@ -16,3 +16,13 @@ CD to ./BackEnd and run
 
 CD to / and run 
 ### `npm start`
+
+## About us
+
+This project was completed by a team of UF CISE Students
+
+Mike Damiano
+Patrick Quinlan
+Diana Dciuculin
+Ramzi Diehs
+Hannah DuBose
