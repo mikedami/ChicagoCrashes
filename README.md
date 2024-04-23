@@ -11,6 +11,8 @@ Each query displays unique results that allow users to draw conclusions upon tra
 
 ## How to Run App
 
-CD to ./BackEnd and run #npm start <UF CISE USERNAME> <UF CISE PASSWORD>
+CD to ./BackEnd and run 
+### `npm start (UF CISE USERNAME) (UF CISE PASSWORD)`
 
-CD to / and run #npm start
+CD to / and run 
+### `npm start`
